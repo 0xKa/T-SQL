@@ -59,7 +59,26 @@ CREATE TABLE Enrollments (
 );
 GO
 
+-------------- Logging Tables --------------
 
+CREATE TABLE StudentsInsertLog(
+	LogID INT IDENTITY(1,1) PRIMARY KEY,
+	InsertDateTime DATETIME2 DEFAULT GETDATE(),
+	StudentID INT,
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    DateOfBirth DATE,
+    Email NVARCHAR(100) ,
+    Phone NVARCHAR(15),
+    Address NVARCHAR(255)
+)
+GO
+
+
+
+GO
+
+-------------- Insert Data --------------
 INSERT INTO Departments (DepartmentName) VALUES 
 ('Computer Science'),
 ('Mathematics'),
@@ -94,6 +113,9 @@ INSERT INTO Enrollments (StudentID, CourseID, EnrollmentDate, Grade) VALUES
 (3, 3, '2024-01-17', 'C'), -- Michael Brown in "Calculus I"
 (4, 4, '2024-01-18', 'A'), -- Sarah Johnson in "Physics I"
 (5, 5, '2024-01-19', 'B'); -- David Wilson in "Business Ethics"
+
+
+
 
 SELECT * FROM Courses;
 SELECT * FROM Departments;
