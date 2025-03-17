@@ -74,8 +74,52 @@ CREATE TABLE StudentsInsertLog(
 )
 GO
 
+CREATE TABLE StudentsUpdateLog(
+	LogID INT IDENTITY(1,1) PRIMARY KEY,
+	UpdateDateTime DATETIME2 DEFAULT GETDATE(),
+	StudentID INT,
+    OldEmail NVARCHAR(100),
+    NewEmail NVARCHAR(100),
+    OldPhone NVARCHAR(15),
+    NewPhone NVARCHAR(15),
+    OldAddress NVARCHAR(255),
+    NewAddress NVARCHAR(255)
+)
+GO
+
+CREATE TABLE StudentsDeleteLog(
+	LogID INT IDENTITY(1,1) PRIMARY KEY,
+	DeleteDateTime DATETIME2 DEFAULT GETDATE(),
+	StudentID INT,
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    DateOfBirth DATE,
+    Email NVARCHAR(100) ,
+    Phone NVARCHAR(15),
+    Address NVARCHAR(255)
+)
+GO
 
 
+
+GO
+
+-------------- views --------------
+CREATE VIEW [dbo].[Enrollments_view] AS
+(
+	SELECT EnrollmentID, s.FirstName, c.CourseName, e.EnrollmentDate, e.Grade FROM Enrollments e 
+	JOIN Students s ON s.StudentID = e.StudentID
+	JOIN Courses c ON c.CourseID = e.CourseID
+
+)
+GO
+
+CREATE VIEW Courses_view AS
+(
+	SELECT CourseID, CourseName, Credits, DepartmentID, DepartmentName FROM Courses
+	JOIN Departments ON Courses.DepartmentID = Departments.DepartmentID
+
+)
 GO
 
 -------------- Insert Data --------------
@@ -108,12 +152,11 @@ INSERT INTO Professors (FirstName, LastName, Email, Phone, DepartmentID) VALUES
 ('William', 'Clark', 'william.clark@example.com', '9876543214', 5);    -- English Literature
 
 INSERT INTO Enrollments (StudentID, CourseID, EnrollmentDate, Grade) VALUES 
-(1, 1, '2024-01-15', 'A'), -- John Doe in "Introduction to Programming"
-(2, 2, '2024-01-16', 'B'), -- Alice Smith in "Database Management Systems"
-(3, 3, '2024-01-17', 'C'), -- Michael Brown in "Calculus I"
-(4, 4, '2024-01-18', 'A'), -- Sarah Johnson in "Physics I"
-(5, 5, '2024-01-19', 'B'); -- David Wilson in "Business Ethics"
-
+(1, 8, '2024-01-15', 'A'), -- John Doe in "Introduction to Programming"
+(32, 9, '2024-01-16', 'B'), -- Alice Smith in "Database Management Systems"
+(33, 10, '2024-01-17', 'C'), -- Michael Brown in "Calculus I"
+(34, 11, '2024-01-18', 'A'), -- Sarah Johnson in "Physics I"
+(4, 12, '2024-01-19', 'B'); -- David Wilson in "Business Ethics"
 
 
 
@@ -122,3 +165,5 @@ SELECT * FROM Departments;
 SELECT * FROM Enrollments;
 SELECT * FROM Professors;
 SELECT * FROM Students;
+SELECT * FROM Enrollments_view;
+SELECT * FROM Courses_view;
